@@ -3,7 +3,7 @@ spring:
     name: WhattsIntegration
 
 api:
-  key: ${ApiKey}
+  key: 550F8B243553-4438-8B2C-8557DB9D8B5C
 
 server:
   port: 8081

@@ -2,6 +2,7 @@ package org.example.whattsintegration.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.whattsintegration.entity.SendMessage;
+import org.example.whattsintegration.entity.SendPresenceChat;
 import org.example.whattsintegration.entity.WebHookPayload;
 import org.example.whattsintegration.service.AiServiceConfig;
 import org.example.whattsintegration.service.WhattsService;
@@ -37,6 +38,7 @@ public class WhattsController {
         }
 
         WebHookPayload.MessageData data = payload.getData();
+
         if (data == null || data.getKey() == null || data.getMessage() == null) {
             System.out.println("AVISO: data, key ou message veio nulo");
             return ResponseEntity.ok().build();
@@ -48,6 +50,15 @@ public class WhattsController {
 
         String numero = data.getKey().getRemoteJid();
         String texto = extrairTexto(data.getMessage());
+
+
+        SendPresenceChat composing = SendPresenceChat.builder()
+                .number(numero)
+                .delay(3000L)
+                .presence("composing")
+                .build();
+
+        whattsController.setPresenceChat(composing);
 
         System.out.println("Número: " + numero);
         System.out.println("Mensagem: " + texto);
